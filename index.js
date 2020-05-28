@@ -1,7 +1,10 @@
+require("dotenv").config();
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
+
 import typeDefs from "./schema";
 import resolvers from "./resolvers";
+import models from "./models";
 
 const app = express();
 
@@ -20,6 +23,6 @@ server.applyMiddleware({
   },
 });
 
-app.listen({ port: 9999 }, () =>
-  console.log(`🚀 Server ready at http://localhost:9999${server.graphqlPath}`)
-);
+models.sequelize.sync({}).then(() => {
+  app.listen({ port: 9999 });
+});

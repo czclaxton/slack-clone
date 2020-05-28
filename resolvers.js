@@ -1,16 +1,5 @@
 export default {
   Query: {
-    books: (parent, args, context, info) => books,
+    hi: (parent, args, context, info) => "hi",
   },
 };
-
-const books = [
-  {
-    title: "Harry Potter and the Chamber of Secrets",
-    author: "J.K. Rowling",
-  },
-  {
-    title: "Jurassic Park",
-    author: "Michael Crichton",
-  },
-];
