@@ -1,15 +1,9 @@
 import Sequelize from "sequelize";
 
-const sequelize = new Sequelize(
-  // process.env.DB_LOCAL,
-  // process.env.DB_LOCAL_USER,
-  // process.env.DB_LOCAL_PASSWORD,
-  "postgres://postgres:husqvt352@localhost/postgres",
-  {
-    // host: process.env.DB_LOCAL_HOST,
-    dialect: "postgres",
-  }
-);
+const sequelize = new Sequelize("slack", "postgres", "admin", {
+  // host: "localhost",
+  dialect: "postgres",
+});
 
 const models = {
   User: sequelize.import("./user"),

@@ -10,5 +10,5 @@ export default (sequelize, DataTypes) => {
     });
   };
 
-  return ChannelChannel;
+  return Channel;
 };
