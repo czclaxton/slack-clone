@@ -81,7 +81,7 @@ const Register = props => {
         <div class='bp3-input-group .modifier'>
           <Tooltip
             content={errors.username ? errors.username : null}
-            hoverCloseDelay='1000'
+            hoverCloseDelay='750'
             position='right'
           >
             <InputGroup
@@ -100,7 +100,7 @@ const Register = props => {
         <div class='bp3-input-group .modifier'>
           <Tooltip
             content={errors.email ? errors.email : null}
-            hoverCloseDelay='1000'
+            hoverCloseDelay='750'
             position='right'
           >
             <InputGroup
@@ -119,7 +119,7 @@ const Register = props => {
         <div class='bp3-input-group .modifier'>
           <Tooltip
             content={errors.password ? errors.password : null}
-            hoverCloseDelay='1000'
+            hoverCloseDelay='750'
             position='right'
           >
             <InputGroup
