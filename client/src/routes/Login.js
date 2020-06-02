@@ -14,32 +14,31 @@ import {
   InputGroup,
 } from '@blueprintjs/core'
 
-const Register = props => {
-  const [newUser, setNewUser] = useState({
-    username: '',
+const Login = props => {
+  const [user, setUser] = useState({
     email: '',
     password: '',
     showPassword: false,
     errors: {},
   })
 
-  const { username, email, password, showPassword, errors } = newUser
+  const { email, password, showPassword, errors } = user
 
-  const [registerMutation] = useMutation(REGISTER_USER, {
-    variables: { ...newUser },
+  const [loginMutation] = useMutation(LOGIN_USER, {
+    variables: { ...user },
   })
 
   const onChange = e => {
     const { name, value } = e.target
-    setNewUser({
-      ...newUser,
+    setUser({
+      ...user,
       [name]: value,
     })
   }
 
   const onSubmit = async () => {
-    const response = await registerMutation()
-    const { errors } = response.data.register
+    const response = await loginMutation()
+    const { errors, token, refreshToken } = response.data.login
 
     if (errors) {
       // if any errors, set them to state
@@ -49,17 +48,19 @@ const Register = props => {
         errObj[path] = message
       })
 
-      setNewUser({
-        ...newUser,
+      setUser({
+        ...user,
         errors: errObj,
       })
     } else {
+      localStorage.setItem('token', token)
+      localStorage.setItem('refreshToken', refreshToken)
       props.history.push('/')
     }
   }
 
   const handleLockClick = () =>
-    setNewUser({ ...newUser, showPassword: !showPassword })
+    setUser({ ...user, showPassword: !showPassword })
 
   const lockButton = (
     <Tooltip content={`${showPassword ? 'Hide' : 'Show'} Password`}>
@@ -75,26 +76,7 @@ const Register = props => {
   return (
     <div className='Form-Wrapper'>
       <Card elevation={Elevation.TWO}>
-        <h1>Register</h1>
-        <div class='bp3-input-group .modifier'>
-          <Tooltip
-            content={errors.username ? errors.username : null}
-            hoverCloseDelay='750'
-            position='right'
-          >
-            <InputGroup
-              placeholder='Username'
-              name='username'
-              onChange={onChange}
-              value={username}
-              type='text'
-              class='bp3-input'
-              large='true'
-              helperText={errors.username ? errors.username : ''}
-              intent={errors.username ? 'danger' : null}
-            />
-          </Tooltip>
-        </div>
+        <h1>Login</h1>
         <div class='bp3-input-group .modifier'>
           <Tooltip
             content={errors.email ? errors.email : null}
@@ -146,10 +128,12 @@ const Register = props => {
   )
 }
 
-const REGISTER_USER = gql`
-  mutation($username: String!, $email: String!, $password: String!) {
-    register(username: $username, email: $email, password: $password) {
+const LOGIN_USER = gql`
+  mutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
       ok
+      token
+      refreshToken
       errors {
         path
         message
@@ -158,4 +142,4 @@ const REGISTER_USER = gql`
   }
 `
 
-export default Register
+export default Login
