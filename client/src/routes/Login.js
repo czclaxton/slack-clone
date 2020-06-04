@@ -77,7 +77,7 @@ const Login = props => {
     <div className='Form-Wrapper'>
       <Card elevation={Elevation.TWO}>
         <h1>Login</h1>
-        <div class='bp3-input-group .modifier'>
+        <div className='bp3-input-group .modifier'>
           <Tooltip
             content={errors.email ? errors.email : null}
             hoverCloseDelay='750'
@@ -89,14 +89,12 @@ const Login = props => {
               onChange={onChange}
               value={email}
               type='text'
-              class='bp3-input'
               large='true'
-              helperText={errors.email ? errors.email : ''}
               intent={errors.email ? 'danger' : null}
             />
           </Tooltip>
         </div>
-        <div class='bp3-input-group .modifier'>
+        <div className='bp3-input-group .modifier'>
           <Tooltip
             content={errors.password ? errors.password : null}
             hoverCloseDelay='750'
@@ -110,16 +108,14 @@ const Login = props => {
               onChange={onChange}
               value={password}
               large='true'
-              helperText={errors.password ? errors.password : null}
               intent={errors.password ? 'danger' : null}
             />
           </Tooltip>
         </div>
         <button
-          className='button-wide'
           type='button'
           onClick={onSubmit}
-          class='bp3-button bp3-intent-primary'
+          className='bp3-button bp3-intent-primary'
         >
           Submit
         </button>
