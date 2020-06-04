@@ -1,14 +1,5 @@
-import bcrypt from "bcrypt";
-import _ from "lodash";
-
+import formatErrors from "../formatErrors";
 import { tryLogin } from "../auth";
-
-const formatErrors = (err, models) => {
-  if (err instanceof models.Sequelize.ValidationError) {
-    return err.errors.map((x) => _.pick(x, ["path", "message"]));
-  }
-  return [{ path: "name", message: "Something went wrong" }];
-};
 
 export default {
   Query: {
