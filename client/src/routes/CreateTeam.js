@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
 // GraphQL
-import { useMutation } from '@apollo/react-hooks'
-import { gql } from 'apollo-boost'
+import { useMutation } from 'react-apollo'
+import gql from 'graphql-tag'
 
 // BLUEPRINTJS
 import {

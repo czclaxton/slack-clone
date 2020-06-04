@@ -17,7 +17,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 // import { ApolloProvider } from 'react-apollo'
 import { setContext } from 'apollo-link-context'
 import { ApolloLink } from 'apollo-link'
-import { ApolloProvider } from '@apollo/react-hooks'
+import { ApolloProvider } from 'react-apollo'
 
 const httpLink = createHttpLink({ uri: 'http://localhost:9999/graphql' })
 
@@ -53,20 +53,6 @@ const client = new ApolloClient({
   link,
   cache: new InMemoryCache(),
 })
-
-// const client = new ApolloClient({
-//   uri: 'http://localhost:9999/graphql',
-//   request: operation => {
-//     const token = localStorage.getItem('token')
-//     const refreshToken = localStorage.getItem('refreshToken')
-//     operation.setContext({
-//       headers: {
-//         token: token ? `Bearer ${token}` : '',
-//         refreshToken: refreshToken ? `Bearer ${refreshToken}` : '',
-//       },
-//     })
-//   },
-// })
 
 const App = (
   <ApolloProvider client={client}>
