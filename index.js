@@ -55,9 +55,9 @@ const server = new ApolloServer({
   }),
 });
 
-server.applyMiddleware({ app }, cors("*"), addUser);
+app.use(cors("*"), addUser);
 
-// app.use("/graphiql", graphiqlExpress({ endpointURL: graphqlEndpoint }));
+server.applyMiddleware({ app });
 
 models.sequelize.sync({}).then(() => {
   app.listen({ port: 9999 });
