@@ -5,14 +5,7 @@ import { useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
 // BLUEPRINTJS
-import {
-  Tooltip,
-  Intent,
-  Button,
-  Card,
-  Elevation,
-  InputGroup,
-} from '@blueprintjs/core'
+import { Tooltip, Card, Elevation, InputGroup } from '@blueprintjs/core'
 
 const CreateTeam = props => {
   const [team, setTeam] = useState({
@@ -35,7 +28,15 @@ const CreateTeam = props => {
   }
 
   const onSubmit = async () => {
-    const response = await createTeamMutation()
+    let response = null
+
+    try {
+      response = await createTeamMutation()
+    } catch (err) {
+      props.history.push('/login')
+      return
+    }
+
     const { errors } = response.data.createTeam
 
     if (errors) {
