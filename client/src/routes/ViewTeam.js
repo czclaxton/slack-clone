@@ -1,19 +1,25 @@
 import React from 'react'
+
 import Channels from '../components/Channels'
+import Teams from '../components/Teams'
+import Header from '../components/Header'
+import Messages from '../components/Messages'
+import Input from '../components/Input'
+import AppLayout from '../components/AppLayout'
 
 export default () => (
-  <div>
-    <div>Teams</div>
+  <AppLayout>
+    <Teams>Teams</Teams>
     <Channels />
-    <div>Header</div>
-    <div>
+    <Header>Header</Header>
+    <Messages>
       <ul>
         <li></li>
         <li></li>
       </ul>
-    </div>
-    <div>
+    </Messages>
+    <Input>
       <input type='text' placeholder='Placeholder' />
-    </div>
-  </div>
+    </Input>
+  </AppLayout>
 )
