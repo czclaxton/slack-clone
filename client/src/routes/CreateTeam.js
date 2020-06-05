@@ -5,14 +5,7 @@ import { useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
 // BLUEPRINTJS
-import {
-  Tooltip,
-  Intent,
-  Button,
-  Card,
-  Elevation,
-  InputGroup,
-} from '@blueprintjs/core'
+import { Tooltip, Card, Elevation, InputGroup } from '@blueprintjs/core'
 
 const CreateTeam = props => {
   const [team, setTeam] = useState({
