@@ -28,7 +28,15 @@ const CreateTeam = props => {
   }
 
   const onSubmit = async () => {
-    const response = await createTeamMutation()
+    let response = null
+
+    try {
+      response = await createTeamMutation()
+    } catch (err) {
+      props.history.push('/login')
+      return
+    }
+
     const { errors } = response.data.createTeam
 
     if (errors) {
