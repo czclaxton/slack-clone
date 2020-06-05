@@ -12,6 +12,7 @@ import Home from './Home'
 import Register from './Register'
 import Login from './Login'
 import CreateTeam from './CreateTeam'
+import ViewTeam from './ViewTeam'
 
 const isAuthenicated = () => {
   const token = localStorage.getItem('token')
@@ -46,6 +47,7 @@ const App = () => {
         <Route exact path='/' component={Home} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />
+        <Route exact path='/view-team' component={ViewTeam} />
         <PrivateRoute path='/create-team' exact component={CreateTeam} />
       </Switch>
     </Router>
