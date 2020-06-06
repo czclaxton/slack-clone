@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const HeaderWrapper = styled.div`
   grid-column: 3;
   grid-row: 1;
-  margin: 15px 0px 0px 15px;
+  margin: 1rem 0rem 0rem 1rem;
 `
 
 export default ({ channelName }) => (
