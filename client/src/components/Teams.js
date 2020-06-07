@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const TeamWrapper = styled.div`
   grid-column: 1;
   grid-row: 1/4;
-  background-color: #2f343d;
-  color: #abb2bf;
+  background-color: #202020;
+  color: #ffffff;
 `
 
 const TeamList = styled.ul`
@@ -17,8 +18,8 @@ const TeamList = styled.ul`
 const TeamListItem = styled.li`
   height: 3.5rem;
   width: 3.5rem;
-  background-color: #121417;
-  color: #abb2bf;
+  background-color: #181818;
+  color: #ffffff;
   margin: auto;
   margin-bottom: 0.75rem;
   display: flex;
@@ -29,12 +30,18 @@ const TeamListItem = styled.li`
   &:hover {
     border-style: solid;
     border-width: thin;
-    border-color: #abb2bf;
+    border-color: #ffffff;
   }
 `
 
 const team = ({ id, letter }) => (
-  <TeamListItem key={`team-${id}`}>{letter}</TeamListItem>
+  <Link
+    style={{ textDecoration: 'none' }}
+    key={`team-${id}`}
+    to={`/view-team/${id}/`}
+  >
+    <TeamListItem>{letter}</TeamListItem>
+  </Link>
 )
 
 export default ({ teams }) => (

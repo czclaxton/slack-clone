@@ -4,12 +4,12 @@ import styled from 'styled-components'
 const ChannelWrapper = styled.div`
   grid-column: 2;
   grid-row: 1/4;
-  background-color: #121417;
-  color: #abb2bf;
+  background-color: #181818;
+  color: #ffffff;
 `
 
 const TeamNameHeader = styled.h1`
-  color: #abb2bf;
+  color: #ffffff;
   font-size: 1.4rem;
 `
 
@@ -24,7 +24,7 @@ const paddingLeft = 'padding-left: 0.7rem'
 const SideBarListItem = styled.li`
   ${paddingLeft};
   &:hover {
-    background: #2f343d;
+    background: #202020;
   }
 `
 
@@ -35,7 +35,7 @@ const PushRight = styled.div`
   ${paddingLeft}
 `
 const Green = styled.span`
-  color: #98c379;
+  color: #99cb3f;
 `
 
 const Bubble = ({ on = true }) => (on ? <Green>●</Green> : '○')
