@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Icon } from '@blueprintjs/core'
+
 const ChannelWrapper = styled.div`
   grid-column: 2;
   grid-row: 1/4;
@@ -50,7 +52,7 @@ const user = ({ id, name }) => (
   </SideBarListItem>
 )
 
-export default ({ teamName, username, channels, users }) => (
+export default ({ teamName, username, channels, users, handleModal }) => (
   <ChannelWrapper>
     <PushRight>
       <TeamNameHeader>{teamName}</TeamNameHeader>
@@ -58,7 +60,10 @@ export default ({ teamName, username, channels, users }) => (
     </PushRight>
     <div>
       <SideBarList>
-        <SideBarListHeader>Channels</SideBarListHeader>
+        <SideBarListHeader>
+          Channels
+          <Icon icon='plus' onClick={handleModal} />
+        </SideBarListHeader>
         {channels.map(channel)}
       </SideBarList>
     </div>

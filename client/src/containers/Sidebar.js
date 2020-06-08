@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useQuery } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -7,8 +7,15 @@ import decode from 'jwt-decode'
 
 import Channels from '../components/Channels'
 import Teams from '../components/Teams'
+import AddChannelModal from '../components/AddChannelModal'
 
 const SideBar = ({ currentTeamId }) => {
+  const [addChannelOpen, setAddChannelOpen] = useState(false)
+
+  const handleModal = () => {
+    setAddChannelOpen(!addChannelOpen)
+  }
+
   const { loading, error, data = {} } = useQuery(ALL_TEAMS)
 
   const allTeams = data.allTeams
@@ -48,6 +55,13 @@ const SideBar = ({ currentTeamId }) => {
           { id: 1, name: 'connor' },
           { id: 2, name: 'slackbot' },
         ]}
+        handleModal={handleModal}
+      />
+      <AddChannelModal
+        key='sidebar-add-channel-modal'
+        open={addChannelOpen}
+        close={handleModal}
+        teamId={currentTeamId}
       />
     </>
   )
