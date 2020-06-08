@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import { Icon } from '@blueprintjs/core'
 
@@ -42,8 +43,10 @@ const Green = styled.span`
 
 const Bubble = ({ on = true }) => (on ? <Green>●</Green> : '○')
 
-const channel = ({ id, name }) => (
-  <SideBarListItem key={`channel-${id}`}># {name}</SideBarListItem>
+const channel = ({ id, name }, teamId) => (
+  <Link to={`/view-team/${teamId}/${id}`} key={`channel-${id}`}>
+    <SideBarListItem># {name}</SideBarListItem>
+  </Link>
 )
 
 const user = ({ id, name }) => (
@@ -52,7 +55,14 @@ const user = ({ id, name }) => (
   </SideBarListItem>
 )
 
-export default ({ teamName, username, channels, users, handleModal }) => (
+export default ({
+  teamName,
+  username,
+  channels,
+  users,
+  handleModal,
+  teamId,
+}) => (
   <ChannelWrapper>
     <PushRight>
       <TeamNameHeader>{teamName}</TeamNameHeader>
@@ -64,7 +74,7 @@ export default ({ teamName, username, channels, users, handleModal }) => (
           Channels
           <Icon icon='plus' onClick={handleModal} />
         </SideBarListHeader>
-        {channels.map(channel)}
+        {channels.map(c => channel(c, teamId))}
       </SideBarList>
     </div>
     <div>

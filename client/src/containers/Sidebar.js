@@ -52,6 +52,7 @@ const SideBar = ({ currentTeamId }) => {
         key='channels-sidebar'
         teamName={team.name}
         username={username}
+        teamId={team.id}
         channels={team.channels}
         users={[
           { id: 1, name: 'connor' },
