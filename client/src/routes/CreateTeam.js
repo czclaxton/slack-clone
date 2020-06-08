@@ -37,7 +37,7 @@ const CreateTeam = props => {
       return
     }
 
-    const { errors } = response.data.createTeam
+    const { errors, team } = response.data.createTeam
 
     if (errors) {
       // if any errors, set them to state
@@ -52,7 +52,7 @@ const CreateTeam = props => {
         errors: errObj,
       })
     } else {
-      props.history.push('/')
+      props.history.push(`/view-team/${team.id}`)
     }
   }
 
@@ -93,6 +93,9 @@ const CREATE_TEAM = gql`
   mutation($name: String!) {
     createTeam(name: $name) {
       ok
+      team {
+        id
+      }
       errors {
         path
         message

@@ -47,7 +47,11 @@ const App = () => {
         <Route exact path='/' component={Home} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />
-        <Route exact path='/view-team' component={ViewTeam} />
+        <Route
+          exact
+          path='/view-team/:teamId?/:channelId?'
+          component={ViewTeam}
+        />
         <PrivateRoute path='/create-team' exact component={CreateTeam} />
       </Switch>
     </Router>
