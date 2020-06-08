@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 
+// GraphQL
 import { useQuery } from 'react-apollo'
-import gql from 'graphql-tag'
+import { ALL_TEAMS } from '../graphql/team'
+
 import findIndex from 'lodash.findindex'
 import decode from 'jwt-decode'
 
@@ -61,23 +63,10 @@ const SideBar = ({ currentTeamId }) => {
         key='sidebar-add-channel-modal'
         open={addChannelOpen}
         close={handleModal}
-        teamId={currentTeamId}
+        teamId={team.id}
       />
     </>
   )
 }
-
-const ALL_TEAMS = gql`
-  {
-    allTeams {
-      id
-      name
-      channels {
-        id
-        name
-      }
-    }
-  }
-`
 
 export default SideBar
