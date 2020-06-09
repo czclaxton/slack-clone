@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 
+import findIndex from 'lodash.findindex'
+
 // GraphQL
 import { useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import { ALL_TEAMS } from '../graphql/team'
 
 // BLUEPRINTJS
 import { Tooltip, Dialog, Intent, InputGroup, Switch } from '@blueprintjs/core'
@@ -14,6 +17,38 @@ const AddChannelModal = ({ open, close, teamId }) => {
 
   const [createChannelMutation] = useMutation(CREATE_CHANNEL, {
     variables: { teamId: parseInt(teamId), name: newChannel.name },
+    optimisticResponse: {
+      __typename: 'Mutation',
+      createChannel: {
+        ok: true,
+        channel: {
+          __typename: 'Channel',
+          id: -1,
+          name: newChannel.name,
+        },
+        __typename: 'ChannelResponse',
+      },
+    },
+    update(cache, { data: { createChannel } }) {
+      const { ok, channel } = createChannel
+
+      if (!ok) {
+        return
+      }
+
+      const data = cache.readQuery({
+        query: ALL_TEAMS,
+      })
+
+      const teamIndex = findIndex(data.allTeams, ['id', teamId])
+
+      data.allTeams[teamIndex].channels.push(channel)
+
+      cache.writeQuery({
+        query: ALL_TEAMS,
+        data,
+      })
+    },
   })
 
   const { name } = newChannel
@@ -29,7 +64,7 @@ const AddChannelModal = ({ open, close, teamId }) => {
   const onSubmit = async () => {
     const response = await createChannelMutation()
     close()
-    console.log('response', response)
+    // console.log('response', response)
   }
 
   return (
@@ -78,7 +113,13 @@ const AddChannelModal = ({ open, close, teamId }) => {
 
 const CREATE_CHANNEL = gql`
   mutation($teamId: Int!, $name: String!) {
-    createChannel(teamId: $teamId, name: $name)
+    createChannel(teamId: $teamId, name: $name) {
+      ok
+      channel {
+        id
+        name
+      }
+    }
   }
 `
 

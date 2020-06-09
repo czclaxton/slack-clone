@@ -11,7 +11,7 @@ export default ({ channelName }) => (
   <SendMessageWrapper>
     <input
       type='text'
-      class='bp3-input bp3-fill'
+      className='bp3-input bp3-fill'
       placeholder={`Message #${channelName}`}
     />
   </SendMessageWrapper>
