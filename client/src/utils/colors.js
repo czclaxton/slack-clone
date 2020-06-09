@@ -9,4 +9,5 @@ export default {
   MentionBadge: '#F7124E',
   TopNavBG: '#202020',
   TopNavText: '#FFFFFF',
+  Lighter: '#33383D',
 }

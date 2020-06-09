@@ -2,18 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import { Icon } from '@blueprintjs/core'
+import { Icon, Popover, Button } from '@blueprintjs/core'
+
+import TeamPopover from './TeamPopover'
 
 const ChannelWrapper = styled.div`
   grid-column: 2;
   grid-row: 1/4;
   background-color: #181818;
   color: #ffffff;
-`
-
-const TeamNameHeader = styled.h1`
-  color: #ffffff;
-  font-size: 1.4rem;
 `
 
 const SideBarList = styled.ul`
@@ -31,14 +28,24 @@ const SideBarListItem = styled.li`
   }
 `
 
+const FlexWrapper = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: flex-start;
+  // width: 100%;
+`
+
 const SideBarListHeader = styled.li`
   ${paddingLeft}
 `
-const PushRight = styled.div`
-  ${paddingLeft}
+
+const H3 = styled.h3`
+  margin: 0;
 `
+
 const Green = styled.span`
   color: #99cb3f;
+  margin-right: 0.25rem;
 `
 
 const Bubble = ({ on = true }) => (on ? <Green>●</Green> : '○')
@@ -64,15 +71,40 @@ export default ({
   teamId,
 }) => (
   <ChannelWrapper>
-    <PushRight>
-      <TeamNameHeader>{teamName}</TeamNameHeader>
-      {username}
-    </PushRight>
+    <Popover
+      content={<TeamPopover id='team-popover-content' />}
+      teamName={teamName}
+      username={username}
+      minimal='true'
+    >
+      <Button
+        id='team-popover'
+        className='team-popover bp3-popover-target bp3-minimal bp3-large'
+        fill
+        outlined
+        type='button'
+        text={
+          <FlexWrapper>
+            <h3>{teamName}</h3>
+            <Icon icon='chevron-down' id='team-popover-chevron-down' />
+          </FlexWrapper>
+        }
+      >
+        <div className='team-username'>
+          <Bubble />
+          {username}
+        </div>
+      </Button>
+    </Popover>
     <div>
       <SideBarList>
         <SideBarListHeader>
-          Channels
-          <Icon icon='plus' onClick={handleModal} />
+          <H3>Channels</H3>
+          <Icon
+            icon='plus'
+            style={{ cursor: 'pointer' }}
+            onClick={handleModal}
+          />
         </SideBarListHeader>
         {channels.map(c => channel(c, teamId))}
       </SideBarList>

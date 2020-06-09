@@ -15,6 +15,10 @@ code {
     monospace;
 }
 
+*:focus {
+  outline: none !important;
+}
+
 /* **** FORM CSS **** */
 
 .Form-Wrapper {
@@ -39,10 +43,76 @@ code {
 
 span.bp3-popover-target {
   width: 100%;
+  /* background: #202020; */
+}
+
+#team-popover-header {
+  background: #33383d;
+  border-radius: 0%;
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+
+#team-popover-header-title {
+  color: #fff;
+  text-align: center;
+}
+
+#channels-list-header {
+  margin-right: 1rem;
 }
 
 /* **** BUTTON CSS **** */
 
 .button-wide {
   width: 30;
+}
+
+#team-popover-content {
+  border-radius: 10%;
+}
+
+#team-popover {
+  color: white;
+  padding-left: 0.7rem;
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  border-right: 0.01px solid rgba(171, 178, 191, 0.2);
+  border-bottom: 0.01px solid rgba(171, 178, 191, 0.2);
+  background: #202020;
+}
+
+#team-popover:hover {
+  background: #202020;
+}
+
+#team-popover-chevron-down {
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-left: 0.7rem;
+}
+
+span.bp3-button-text {
+  width: 100%;
+}
+
+.bp3-button-text h3 {
+  margin: 0;
+}
+
+.team-username {
+  margin-top: 0.25rem;
+}
+
+.bp3-menu-item {
+  color: #fff;
+  font-size: 1rem;
+}
+
+.bp3-menu-item::before,
+.bp3-menu-item > .bp3-icon {
+  color: #fff !important;
+  margin-right: 0.7rem !important;
 }

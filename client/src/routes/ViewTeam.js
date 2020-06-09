@@ -24,12 +24,12 @@ const ViewTeam = ({
   if (loading) return null
   if (error) return `Error: ${error.message}`
 
-  const teamIndex = !!teamId
+  const teamIndex = teamId
     ? findIndex(allTeams, ['id', parseInt(teamId, 10)])
     : 0
   const currentTeam = allTeams[teamIndex]
 
-  const channelIndex = !!channelId
+  const channelIndex = channelId
     ? findIndex(currentTeam.channels, ['id', parseInt(channelId, 10)])
     : 0
   const currentChannel = currentTeam.channels[channelIndex]

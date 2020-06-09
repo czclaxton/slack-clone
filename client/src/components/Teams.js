@@ -7,6 +7,7 @@ const TeamWrapper = styled.div`
   grid-row: 1/4;
   background-color: #202020;
   color: #ffffff;
+  border-right: 0.01px solid rgba(171, 178, 191, 0.2);
 `
 
 const TeamList = styled.ul`
