@@ -43,7 +43,6 @@ code {
 
 span.bp3-popover-target {
   width: 100%;
-  /* background: #202020; */
 }
 
 #team-popover-header {
@@ -58,8 +57,8 @@ span.bp3-popover-target {
   text-align: center;
 }
 
-#channels-list-header {
-  margin-right: 1rem;
+#add-channel-icon {
+  margin-right: 0.7rem;
 }
 
 /* **** BUTTON CSS **** */

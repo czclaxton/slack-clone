@@ -16,7 +16,7 @@ const ChannelWrapper = styled.div`
 const SideBarList = styled.ul`
   width: 100%;
   list-style: none;
-  padding-left: 0rem;
+  padding-left: 0.7rem;
 `
 
 const paddingLeft = 'padding-left: 0.7rem'
@@ -32,15 +32,16 @@ const FlexWrapper = styled.div`
   display: flex;
   align-content: center;
   justify-content: flex-start;
-  // width: 100%;
+  width: 100%;
 `
 
 const SideBarListHeader = styled.li`
   ${paddingLeft}
+  display: flex !important;
 `
 
 const H3 = styled.h3`
-  margin: 0;
+  margin: 0 0 0.25rem 0;
 `
 
 const Green = styled.span`
@@ -67,14 +68,20 @@ export default ({
   username,
   channels,
   users,
-  handleModal,
+  handleChannelModal,
   teamId,
+  handleTeamMemberModal,
 }) => (
   <ChannelWrapper>
     <Popover
-      content={<TeamPopover id='team-popover-content' />}
-      teamName={teamName}
-      username={username}
+      content={
+        <TeamPopover
+          id='team-popover-content'
+          teamName={teamName}
+          username={username}
+          handleTeamMemberModal={handleTeamMemberModal}
+        />
+      }
       minimal='true'
     >
       <Button
@@ -98,12 +105,20 @@ export default ({
     </Popover>
     <div>
       <SideBarList>
-        <SideBarListHeader>
+        <SideBarListHeader
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
           <H3>Channels</H3>
           <Icon
+            id='add-channel-icon'
             icon='plus'
+            iconSize='20'
             style={{ cursor: 'pointer' }}
-            onClick={handleModal}
+            onClick={handleChannelModal}
           />
         </SideBarListHeader>
         {channels.map(c => channel(c, teamId))}

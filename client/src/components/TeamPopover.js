@@ -1,18 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon } from '@blueprintjs/core'
-
-const TeamPopover = ({ teamName, username }) => {
+const TeamPopover = ({ teamName, username, handleTeamMemberModal }) => {
   return (
-    // <PopoverWrapper className='bp3-popover-wrapper' position='bottom_left'>
-    //   <div className='bp3-dialog-header' id='team-popover-header'>
-    //     <h3 className='bp3-heading' id='team-popover-header-title'>
-    //       Manage Team
-    //     </h3>
-    //   </div>
-    //   <div>Hello</div>
-    // </PopoverWrapper>
     <PopoverWrapper
       className='bp3-popover-wrapper bp3-menu bp3-elevation-1'
       position='bottom_left'
@@ -26,6 +16,7 @@ const TeamPopover = ({ teamName, username }) => {
         <button
           type='button'
           class='bp3-menu-item bp3-icon-standard bp3-icon-new-person'
+          onClick={handleTeamMemberModal}
         >
           Invite to team
         </button>

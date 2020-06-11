@@ -88,13 +88,11 @@ const AddChannelModal = ({ open, close, teamId }) => {
         <div className='bp3-dialog-body'>
           <InputGroup
             placeholder='Channel Name'
-            // rightElement={lockButton}
             type='text'
             name='name'
             onChange={onChange}
             value={name}
             large='true'
-            // intent={errors.password ? 'danger' : null}
           />
           <RadioGroup label='Group Privacy' inline>
             <Radio label='Public' disabled />
