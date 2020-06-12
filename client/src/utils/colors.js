@@ -1,13 +1,9 @@
 export default {
-  ColumnBG: '#181818',
+  BG: '#1A1D23',
+  BG2: '#15202B',
+  BG3: '#253341',
   ActiveItem: '#99CB3F',
-  ActiveItemText: '#FFFFFF',
-  HoverItem: '#202020',
   TextColor: '#FFFFFF',
   TextColorB: '#ABB2BF',
-  ActivePresence: '#99CB3F',
   MentionBadge: '#F7124E',
-  TopNavBG: '#202020',
-  TopNavText: '#FFFFFF',
-  Lighter: '#33383D',
 }

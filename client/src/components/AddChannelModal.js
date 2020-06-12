@@ -102,13 +102,10 @@ const AddChannelModal = ({ open, close, teamId }) => {
 
         <div className='bp3-dialog-footer'>
           <div className='bp3-dialog-footer-actions'>
-            <button type='button' onClick={close} className='bp3-button'>
-              Cancel
-            </button>
             <button
               type='submit'
               onClick={onSubmit}
-              className='bp3-button bp3-intent-primary'
+              className='bp3-button bp3-intent-success'
             >
               Create
             </button>

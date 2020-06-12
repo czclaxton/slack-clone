@@ -91,15 +91,12 @@ const AddTeamMemberModal = ({ open, close, teamId, teamName }) => {
 
         <div className='bp3-dialog-footer'>
           <div className='bp3-dialog-footer-actions'>
-            <button type='button' onClick={close} className='bp3-button'>
-              Cancel
-            </button>
             <button
               type='submit'
               onClick={onSubmit}
-              className='bp3-button bp3-intent-primary'
+              className='bp3-button bp3-intent-success'
             >
-              Invite
+              Send Invite
             </button>
           </div>
         </div>

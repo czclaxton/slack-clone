@@ -28,7 +28,7 @@ const SideBar = ({ teams, currentTeam }) => {
 
   return (
     <>
-      <Teams key='team-sidebar' teams={teams} />
+      <Teams key='team-sidebar' teams={teams} currentTeam={currentTeam} />
       <Channels
         key='channels-sidebar'
         teamName={currentTeam.name}

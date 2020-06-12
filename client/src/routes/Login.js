@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 
 // GraphQL
 import { useMutation } from 'react-apollo'
@@ -66,7 +67,7 @@ const Login = props => {
     <Tooltip content={`${showPassword ? 'Hide' : 'Show'} Password`}>
       <Button
         icon={showPassword ? 'unlock' : 'lock'}
-        intent={Intent.WARNING}
+        intent={showPassword ? Intent.WARNING : Intent.SUCCESS}
         minimal={true}
         onClick={handleLockClick}
       />
@@ -76,7 +77,7 @@ const Login = props => {
   return (
     <div className='Form-Wrapper'>
       <Card elevation={Elevation.TWO}>
-        <h1>Login</h1>
+        <H1>Login</H1>
         <div className='bp3-input-group .modifier'>
           <Tooltip
             content={errors.email ? errors.email : null}
@@ -136,6 +137,12 @@ const LOGIN_USER = gql`
       }
     }
   }
+`
+
+const H1 = styled.h1`
+  color: #fff;
+  background-color: #1a1d23;
+  font-size: 1.4rem;
 `
 
 export default Login

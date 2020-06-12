@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const TeamPopover = ({ teamName, username, handleTeamMemberModal }) => {
+const SettingsPopover = ({ teamName, username, handleTeamMemberModal }) => {
   return (
     <PopoverWrapper
       className='bp3-popover-wrapper bp3-menu bp3-elevation-1'
@@ -9,7 +9,7 @@ const TeamPopover = ({ teamName, username, handleTeamMemberModal }) => {
     >
       <li class='bp3-menu-header'>
         <h3 class='bp3-heading' id='team-popover-header-title'>
-          Manage Team
+          Settings
         </h3>
       </li>
       <li>
@@ -31,11 +31,7 @@ const TeamPopover = ({ teamName, username, handleTeamMemberModal }) => {
           Grid
         </button>
       </li>
-      <li class='bp3-menu-header'>
-        <h3 class='bp3-heading' id='team-popover-header-title'>
-          Manage Account
-        </h3>
-      </li>
+
       <li>
         <button type='button' class='bp3-menu-item bp3-icon-edit'>
           Edit Profile
@@ -56,10 +52,11 @@ const TeamPopover = ({ teamName, username, handleTeamMemberModal }) => {
 }
 
 const PopoverWrapper = styled.ul`
-  color: #ffffff;
-  background-color: #33383d;
+  color: #fff;
+  background-color: #15202b;
   font-size: 1.4rem;
-  width: 17rem;
+  border-radius: 0;
+  border: 0.01px solid rgba(171, 178, 191, 0.2);
 `
 
-export default TeamPopover
+export default SettingsPopover
