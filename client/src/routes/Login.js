@@ -83,6 +83,7 @@ const Login = props => {
             content={errors.email ? errors.email : null}
             hoverCloseDelay='750'
             position='right'
+            intent='danger'
           >
             <InputGroup
               placeholder='Email'
@@ -100,6 +101,7 @@ const Login = props => {
             content={errors.password ? errors.password : null}
             hoverCloseDelay='750'
             position='right'
+            intent='danger'
           >
             <InputGroup
               placeholder='Password'

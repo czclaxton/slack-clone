@@ -178,7 +178,6 @@ span.bp3-button-text {
 .bp3-dialog .bp3-input {
   background: #253341;
   color: #fff !important;
-  box-shadow: none !important;
   border: 0.01px solid rgba(171, 178, 191, 0.5);
 }
 

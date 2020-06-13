@@ -11,7 +11,12 @@ import gql from 'graphql-tag'
 import { Tooltip, Dialog, InputGroup } from '@blueprintjs/core'
 
 const AddTeamMemberModal = ({ open, close, teamId, teamName }) => {
-  const [email, setEmail] = useState('')
+  const [invite, setInvite] = useState({
+    email: '',
+    errors: {},
+  })
+
+  const { email, errors } = invite
 
   const [addTeamMemberMutation] = useMutation(ADD_TEAM_MEMBER, {
     variables: { teamId, email },
@@ -38,12 +43,33 @@ const AddTeamMemberModal = ({ open, close, teamId, teamName }) => {
   })
 
   const onChange = e => {
-    setEmail(e.target.value)
+    const { name, value } = e.target
+    setInvite({
+      ...invite,
+      [name]: value,
+    })
   }
 
   const onSubmit = async () => {
     const response = await addTeamMemberMutation()
     console.log('new team member response', response)
+    const { errors } = response.data.addTeamMember
+
+    if (errors) {
+      const errObj = {}
+
+      errors.forEach(({ path, message }) => {
+        errObj[path] = message
+      })
+
+      setInvite({
+        ...invite,
+        errors: errObj,
+      })
+
+      return
+    }
+
     close()
   }
 
@@ -60,14 +86,22 @@ const AddTeamMemberModal = ({ open, close, teamId, teamName }) => {
           ></button>
         </div>
         <div className='bp3-dialog-body'>
-          <InputGroup
-            placeholder="User's Email"
-            type='text'
-            name='email'
-            onChange={onChange}
-            value={email}
-            large='true'
-          />
+          <Tooltip
+            content={errors.email ? errors.email : null}
+            hoverCloseDelay='750'
+            position='right'
+            intent='danger'
+          >
+            <InputGroup
+              placeholder="User's Email"
+              type='text'
+              name='email'
+              onChange={onChange}
+              value={email}
+              large='true'
+              intent={errors.email ? 'danger' : null}
+            />
+          </Tooltip>
         </div>
 
         <div className='bp3-dialog-footer'>
