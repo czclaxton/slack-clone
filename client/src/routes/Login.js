@@ -116,7 +116,7 @@ const Login = props => {
         <button
           type='button'
           onClick={onSubmit}
-          className='bp3-button bp3-intent-primary'
+          className='bp3-button bp3-intent-success'
         >
           Submit
         </button>

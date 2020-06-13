@@ -5,64 +5,45 @@ import findIndex from 'lodash.findindex'
 // GraphQL
 import { useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import { ALL_TEAMS } from '../graphql/team'
+// import { ALL_TEAMS } from '../graphql/team'
 
 // BLUEPRINTJS
 import { Tooltip, Dialog, InputGroup } from '@blueprintjs/core'
 
 const AddTeamMemberModal = ({ open, close, teamId, teamName }) => {
-  const [newMember, setNewMember] = useState({
-    email: '',
+  const [email, setEmail] = useState('')
+
+  const [addTeamMemberMutation] = useMutation(ADD_TEAM_MEMBER, {
+    variables: { teamId, email },
+    // update(cache, { data: { createChannel } }) {
+    //   const { ok, channel } = createChannel
+
+    //   if (!ok) {
+    //     return
+    //   }
+
+    //   const data = cache.readQuery({
+    //     query: ALL_TEAMS,
+    //   })
+
+    //   const teamIndex = findIndex(data.allTeams, ['id', teamId])
+
+    //   data.allTeams[teamIndex].channels.push(channel)
+
+    //   cache.writeQuery({
+    //     query: ALL_TEAMS,
+    //     data,
+    //   })
+    // },
   })
 
-  // const [addToTeamMutation] = useMutation(CREATE_CHANNEL, {
-  //   variables: { teamId: parseInt(teamId), name: newChannel.name },
-  //   optimisticResponse: {
-  //     __typename: 'Mutation',
-  //     createChannel: {
-  //       ok: true,
-  //       channel: {
-  //         __typename: 'Channel',
-  //         id: -1,
-  //         name: newChannel.name,
-  //       },
-  //       __typename: 'ChannelResponse',
-  //     },
-  //   },
-  //   update(cache, { data: { createChannel } }) {
-  //     const { ok, channel } = createChannel
-
-  //     if (!ok) {
-  //       return
-  //     }
-
-  //     const data = cache.readQuery({
-  //       query: ALL_TEAMS,
-  //     })
-
-  //     const teamIndex = findIndex(data.allTeams, ['id', teamId])
-
-  //     data.allTeams[teamIndex].channels.push(channel)
-
-  //     cache.writeQuery({
-  //       query: ALL_TEAMS,
-  //       data,
-  //     })
-  //   },
-  // })
-
-  const { email } = newMember
-
   const onChange = e => {
-    const { email, value } = e.target
-    setNewMember({
-      ...newMember,
-      [email]: value,
-    })
+    setEmail(e.target.value)
   }
 
   const onSubmit = async () => {
-    // await createChannelMutation()
+    const response = await addTeamMemberMutation()
+    console.log('new team member response', response)
     close()
   }
 
@@ -71,7 +52,7 @@ const AddTeamMemberModal = ({ open, close, teamId, teamName }) => {
       <Dialog className='bp3-dialog' isOpen={open} onClose={close}>
         <div className='bp3-dialog-header'>
           <span className='bp3-icon-large bp3-icon-annotation'></span>
-          <h4 className='bp3-heading'>Send an invite to join {teamName}!</h4>
+          <h4 className='bp3-heading'>Invite people to join {teamName}!</h4>
           <button
             aria-label='Close'
             onClick={close}
@@ -80,9 +61,9 @@ const AddTeamMemberModal = ({ open, close, teamId, teamName }) => {
         </div>
         <div className='bp3-dialog-body'>
           <InputGroup
-            placeholder='Email'
+            placeholder="User's Email"
             type='text'
-            name='name'
+            name='email'
             onChange={onChange}
             value={email}
             large='true'
@@ -105,16 +86,16 @@ const AddTeamMemberModal = ({ open, close, teamId, teamName }) => {
   )
 }
 
-// const CREATE_CHANNEL = gql`
-//   mutation($teamId: Int!, $name: String!) {
-//     createChannel(teamId: $teamId, name: $name) {
-//       ok
-//       channel {
-//         id
-//         name
-//       }
-//     }
-//   }
-// `
+const ADD_TEAM_MEMBER = gql`
+  mutation($email: String!, $teamId: Int!) {
+    addTeamMember(email: $email, teamId: $teamId) {
+      ok
+      errors {
+        path
+        message
+      }
+    }
+  }
+`
 
 export default AddTeamMemberModal

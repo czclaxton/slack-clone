@@ -7,43 +7,43 @@ const SettingsPopover = ({ teamName, username, handleTeamMemberModal }) => {
       className='bp3-popover-wrapper bp3-menu bp3-elevation-1'
       position='bottom_left'
     >
-      <li class='bp3-menu-header'>
-        <h3 class='bp3-heading' id='team-popover-header-title'>
+      <li className='bp3-menu-header'>
+        <h3 className='bp3-heading' id='team-popover-header-title'>
           Settings
         </h3>
       </li>
       <li>
         <button
           type='button'
-          class='bp3-menu-item bp3-icon-standard bp3-icon-new-person'
+          className='bp3-menu-item bp3-icon-standard bp3-icon-new-person'
           onClick={handleTeamMemberModal}
         >
           Invite to team
         </button>
       </li>
       <li>
-        <button type='button' class='bp3-menu-item bp3-icon-layout-circle'>
+        <button type='button' className='bp3-menu-item bp3-icon-layout-circle'>
           Circle
         </button>
       </li>
       <li>
-        <button type='button' class='bp3-menu-item bp3-icon-layout-grid'>
+        <button type='button' className='bp3-menu-item bp3-icon-layout-grid'>
           Grid
         </button>
       </li>
 
       <li>
-        <button type='button' class='bp3-menu-item bp3-icon-edit'>
+        <button type='button' className='bp3-menu-item bp3-icon-edit'>
           Edit Profile
         </button>
       </li>
       <li>
-        <button type='button' class='bp3-menu-item bp3-icon-star'>
+        <button type='button' className='bp3-menu-item bp3-icon-star'>
           Favorites
         </button>
       </li>
       <li>
-        <button type='button' class='bp3-menu-item bp3-icon-envelope'>
+        <button type='button' className='bp3-menu-item bp3-icon-envelope'>
           Messages
         </button>
       </li>

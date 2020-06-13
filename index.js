@@ -2,18 +2,25 @@ require("dotenv").config();
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import path from "path";
-import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas";
+import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
+import { loadFilesSync } from "@graphql-tools/load-files";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import jwt from "jsonwebtoken";
 import cors from "cors";
 
 import models from "./models";
 import { refreshTokens } from "./auth";
 
-const typeDefs = mergeTypes(fileLoader(path.join(__dirname, "./schema")));
+const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, "./schema")));
 
 const resolvers = mergeResolvers(
-  fileLoader(path.join(__dirname, "./resolvers"))
+  loadFilesSync(path.join(__dirname, "./resolvers"))
 );
+
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
 
 const addUser = async (req, res, next) => {
   // if valid token, add user to req obj otherwise refresh the tokens
@@ -45,8 +52,7 @@ const addUser = async (req, res, next) => {
 const app = express();
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
   context: ({ req }) => ({
     models,
     user: req.user,
@@ -59,6 +65,6 @@ app.use(cors("*"), addUser);
 
 server.applyMiddleware({ app });
 
-models.sequelize.sync({}).then(() => {
+models.sequelize.sync().then(() => {
   app.listen({ port: 9999 });
 });
