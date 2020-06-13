@@ -10,14 +10,23 @@ export default {
   },
   Mutation: {
     createTeam: requiresAuth.createResolver(
-      async (parent, args, { models, user }) => {
+      async (parent, { name }, { models, user }) => {
         try {
-          const team = await models.Team.create({ ...args, owner: user.id });
-          await models.Channel.create({
+          const team = await models.Team.create({ name, owner: user.id });
+
+          const channelPromise = models.Channel.create({
             name: "general",
             public: true,
             teamId: team.id,
           });
+
+          const ownerMemberPromise = models.Member.create({
+            userId: user.id,
+            teamId: team.id,
+          });
+
+          await Promise.all([channelPromise, ownerMemberPromise]);
+
           return {
             ok: true,
             team,

@@ -65,6 +65,6 @@ app.use(cors("*"), addUser);
 
 server.applyMiddleware({ app });
 
-models.sequelize.sync().then(() => {
+models.sequelize.sync({}).then(() => {
   app.listen({ port: 9999 });
 });

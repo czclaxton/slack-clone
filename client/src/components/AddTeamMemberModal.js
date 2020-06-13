@@ -53,7 +53,7 @@ const AddTeamMemberModal = ({ open, close, teamId, teamName }) => {
 
   const onSubmit = async () => {
     const response = await addTeamMemberMutation()
-    console.log('new team member response', response)
+
     const { errors } = response.data.addTeamMember
 
     if (errors) {
