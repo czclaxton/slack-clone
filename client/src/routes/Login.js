@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+// Utility
+import normalizeErrors from '../utils/normalizeErrors'
+
 // GraphQL
 import { useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -43,15 +46,10 @@ const Login = props => {
 
     if (errors) {
       // if any errors, set them to state
-      const errObj = {}
-
-      errors.forEach(({ path, message }) => {
-        errObj[path] = message
-      })
 
       setUser({
         ...user,
-        errors: errObj,
+        errors: normalizeErrors(errors),
       })
     } else {
       localStorage.setItem('token', token)

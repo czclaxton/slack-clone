@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-import findIndex from 'lodash.findindex'
+// Utility
+import normalizeErrors from '../utils/normalizeErrors'
 
 // GraphQL
 import { useMutation } from 'react-apollo'
@@ -56,15 +57,9 @@ const AddTeamMemberModal = ({ open, close, teamId, teamName }) => {
     const { errors } = response.data.addTeamMember
 
     if (errors) {
-      const errObj = {}
-
-      errors.forEach(({ path, message }) => {
-        errObj[path] = message
-      })
-
       setInvite({
         ...invite,
-        errors: errObj,
+        errors: normalizeErrors(errors),
       })
 
       return
