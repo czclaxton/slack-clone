@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 
 // GraphQL
 import { useMutation } from 'react-apollo'
@@ -59,7 +60,7 @@ const CreateTeam = props => {
   return (
     <div className='Form-Wrapper'>
       <Card elevation={Elevation.TWO}>
-        <h1>Create a team</h1>
+        <H1>Create a team</H1>
         <div className='bp3-input-group .modifier'>
           <Tooltip
             content={errors.name ? errors.name : null}
@@ -80,7 +81,7 @@ const CreateTeam = props => {
         <button
           type='button'
           onClick={onSubmit}
-          className='bp3-button bp3-intent-primary'
+          className='bp3-button bp3-intent-success'
         >
           Submit
         </button>
@@ -102,6 +103,12 @@ const CREATE_TEAM = gql`
       }
     }
   }
+`
+
+const H1 = styled.h1`
+  color: #fff;
+  background-color: #1a1d23;
+  font-size: 1.4rem;
 `
 
 export default CreateTeam

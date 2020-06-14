@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
+
+// Utility
+import normalizeErrors from '../utils/normalizeErrors'
 
 // GraphQL
 import { useMutation } from 'react-apollo'
@@ -42,15 +46,10 @@ const Login = props => {
 
     if (errors) {
       // if any errors, set them to state
-      const errObj = {}
-
-      errors.forEach(({ path, message }) => {
-        errObj[path] = message
-      })
 
       setUser({
         ...user,
-        errors: errObj,
+        errors: normalizeErrors(errors),
       })
     } else {
       localStorage.setItem('token', token)
@@ -66,7 +65,7 @@ const Login = props => {
     <Tooltip content={`${showPassword ? 'Hide' : 'Show'} Password`}>
       <Button
         icon={showPassword ? 'unlock' : 'lock'}
-        intent={Intent.WARNING}
+        intent={showPassword ? Intent.WARNING : Intent.SUCCESS}
         minimal={true}
         onClick={handleLockClick}
       />
@@ -76,12 +75,13 @@ const Login = props => {
   return (
     <div className='Form-Wrapper'>
       <Card elevation={Elevation.TWO}>
-        <h1>Login</h1>
+        <H1>Login</H1>
         <div className='bp3-input-group .modifier'>
           <Tooltip
             content={errors.email ? errors.email : null}
             hoverCloseDelay='750'
             position='right'
+            intent='danger'
           >
             <InputGroup
               placeholder='Email'
@@ -99,6 +99,7 @@ const Login = props => {
             content={errors.password ? errors.password : null}
             hoverCloseDelay='750'
             position='right'
+            intent='danger'
           >
             <InputGroup
               placeholder='Password'
@@ -115,7 +116,7 @@ const Login = props => {
         <button
           type='button'
           onClick={onSubmit}
-          className='bp3-button bp3-intent-primary'
+          className='bp3-button bp3-intent-success'
         >
           Submit
         </button>
@@ -136,6 +137,12 @@ const LOGIN_USER = gql`
       }
     }
   }
+`
+
+const H1 = styled.h1`
+  color: #fff;
+  background-color: #1a1d23;
+  font-size: 1.4rem;
 `
 
 export default Login

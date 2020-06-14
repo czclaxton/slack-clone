@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
+
+// Utility
+import normalizeErrors from '../utils/normalizeErrors'
 
 // GraphQL
 import { useMutation } from 'react-apollo'
@@ -42,16 +46,9 @@ const Register = props => {
     const { errors } = response.data.register
 
     if (errors) {
-      // if any errors, set them to state
-      const errObj = {}
-
-      errors.forEach(({ path, message }) => {
-        errObj[path] = message
-      })
-
       setNewUser({
         ...newUser,
-        errors: errObj,
+        errors: normalizeErrors(errors),
       })
     } else {
       props.history.push('/')
@@ -65,7 +62,7 @@ const Register = props => {
     <Tooltip content={`${showPassword ? 'Hide' : 'Show'} Password`}>
       <Button
         icon={showPassword ? 'unlock' : 'lock'}
-        intent={Intent.WARNING}
+        intent={showPassword ? Intent.WARNING : Intent.SUCCESS}
         minimal={true}
         onClick={handleLockClick}
       />
@@ -75,12 +72,13 @@ const Register = props => {
   return (
     <div className='Form-Wrapper'>
       <Card elevation={Elevation.TWO}>
-        <h1>Register</h1>
+        <H1>Register</H1>
         <div className='bp3-input-group .modifier'>
           <Tooltip
             content={errors.username ? errors.username : null}
             hoverCloseDelay='750'
             position='right'
+            intent='danger'
           >
             <InputGroup
               placeholder='Username'
@@ -98,6 +96,7 @@ const Register = props => {
             content={errors.email ? errors.email : null}
             hoverCloseDelay='750'
             position='right'
+            intent='danger'
           >
             <InputGroup
               placeholder='Email'
@@ -115,6 +114,7 @@ const Register = props => {
             content={errors.password ? errors.password : null}
             hoverCloseDelay='750'
             position='right'
+            intent='danger'
           >
             <InputGroup
               placeholder='Password'
@@ -131,7 +131,7 @@ const Register = props => {
         <button
           type='button'
           onClick={onSubmit}
-          className='bp3-button bp3-intent-primary'
+          className='bp3-button bp3-intent-success'
         >
           Submit
         </button>
@@ -150,6 +150,12 @@ const REGISTER_USER = gql`
       }
     }
   }
+`
+
+const H1 = styled.h1`
+  color: #fff;
+  background-color: #1a1d23;
+  font-size: 1.4rem;
 `
 
 export default Register
