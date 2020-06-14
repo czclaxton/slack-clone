@@ -1,5 +1,6 @@
 import React from 'react'
 import findIndex from 'lodash.findindex'
+import { Redirect } from 'react-router-dom'
 
 // GraphQL
 import { useQuery } from 'react-apollo'
@@ -21,16 +22,18 @@ const ViewTeam = ({
 
   const allTeams = data.allTeams
 
+  // if (!allTeams) return <Redirect to='/create-team' />
+
   if (loading) return null
   if (error) return `Error: ${error.message}`
 
-  const teamIndex = teamId
-    ? findIndex(allTeams, ['id', parseInt(teamId, 10)])
-    : 0
+  const teamIdInt = parseInt(teamId, 10)
+  const teamIndex = teamIdInt ? findIndex(allTeams, ['id', teamIdInt]) : 0
   const currentTeam = allTeams[teamIndex]
 
-  const channelIndex = channelId
-    ? findIndex(currentTeam.channels, ['id', parseInt(channelId, 10)])
+  const channelIdInt = parseInt(teamId, 10)
+  const channelIndex = channelIdInt
+    ? findIndex(currentTeam.channels, ['id', channelIdInt])
     : 0
   const currentChannel = currentTeam.channels[channelIndex]
 
@@ -43,14 +46,16 @@ const ViewTeam = ({
         }))}
         currentTeam={currentTeam}
       />
-      <Header channelName={currentChannel.name} />
-      <Messages channelId={currentChannel.id}>
-        <ul>
-          <li></li>
-          <li></li>
-        </ul>
-      </Messages>
-      <SendMessage channelName={currentChannel.name} />
+      {currentChannel && <Header channelName={currentChannel.name} />}
+      {currentChannel && (
+        <Messages channelId={currentChannel.id}>
+          <ul>
+            <li></li>
+            <li></li>
+          </ul>
+        </Messages>
+      )}
+      {currentChannel && <SendMessage channelName={currentChannel.name} />}
     </AppLayout>
   )
 }

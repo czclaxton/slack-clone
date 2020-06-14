@@ -12,30 +12,32 @@ export default {
     createTeam: requiresAuth.createResolver(
       async (parent, { name }, { models, user }) => {
         try {
-          const team = await models.Team.create({ name, owner: user.id });
+          const response = await models.sequelize.transaction(async () => {
+            const team = await models.Team.create({ name, owner: user.id });
 
-          const channelPromise = models.Channel.create({
-            name: "general",
-            public: true,
-            teamId: team.id,
+            await models.Channel.create({
+              name: "general",
+              public: true,
+              teamId: team.id,
+            });
+
+            await models.Member.create({
+              userId: user.id,
+              teamId: team.id,
+            });
+
+            return team;
           });
-
-          const ownerMemberPromise = models.Member.create({
-            userId: user.id,
-            teamId: team.id,
-          });
-
-          await Promise.all([channelPromise, ownerMemberPromise]);
 
           return {
             ok: true,
-            team,
+            team: response,
           };
         } catch (err) {
           console.log(err);
           return {
             ok: false,
-            errors: formatErrors(err),
+            errors: formatErrors(err, models),
           };
         }
       }
@@ -86,7 +88,7 @@ export default {
         } catch (err) {
           return {
             ok: false,
-            errors: formatErrors(err),
+            errors: formatErrors(err, models),
           };
         }
       }
