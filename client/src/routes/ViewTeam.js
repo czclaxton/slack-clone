@@ -20,18 +20,20 @@ const ViewTeam = ({
 }) => {
   const { loading, error, data = {} } = useQuery(ALL_TEAMS)
 
-  const allTeams = data.allTeams
-
-  // if (!allTeams) return <Redirect to='/create-team' />
-
   if (loading) return null
   if (error) return `Error: ${error.message}`
 
+  const allTeams = data.allTeams
+  console.log('allTeams', allTeams)
+
+  if (!allTeams) return <Redirect to='/create-team' />
+
   const teamIdInt = parseInt(teamId, 10)
+
   const teamIndex = teamIdInt ? findIndex(allTeams, ['id', teamIdInt]) : 0
   const currentTeam = teamIndex === -1 ? allTeams[0] : allTeams[teamIndex]
 
-  const channelIdInt = parseInt(teamId, 10)
+  const channelIdInt = parseInt(channelId, 10)
   const channelIndex = channelIdInt
     ? findIndex(currentTeam.channels, ['id', channelIdInt])
     : 0
