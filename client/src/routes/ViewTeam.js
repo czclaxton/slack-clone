@@ -29,13 +29,16 @@ const ViewTeam = ({
 
   const teamIdInt = parseInt(teamId, 10)
   const teamIndex = teamIdInt ? findIndex(allTeams, ['id', teamIdInt]) : 0
-  const currentTeam = allTeams[teamIndex]
+  const currentTeam = teamIndex === -1 ? allTeams[0] : allTeams[teamIndex]
 
   const channelIdInt = parseInt(teamId, 10)
   const channelIndex = channelIdInt
     ? findIndex(currentTeam.channels, ['id', channelIdInt])
     : 0
-  const currentChannel = currentTeam.channels[channelIndex]
+  const currentChannel =
+    channelIndex === -1
+      ? currentTeam.channels[0]
+      : currentTeam.channels[channelIndex]
 
   return (
     <AppLayout>
