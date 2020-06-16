@@ -6,54 +6,6 @@ import { Icon, Popover, Button, Tooltip } from '@blueprintjs/core'
 
 import SettingsPopover from './SettingsPopover'
 
-const ChannelWrapper = styled.div`
-  grid-column: 2;
-  grid-row: 1/4;
-  background-color: #1a1d23;
-  color: #ffffff;
-  border-right: 0.01px solid rgba(171, 178, 191, 0.2);
-`
-
-const SideBarList = styled.ul`
-  width: 100%;
-  list-style: none;
-  padding-left: 0rem;
-`
-
-const ListItemText = styled.p`
-  margin: 0;
-  position: relative;
-  left: 0.7rem;
-`
-
-const paddingLeft = 'padding-left: 0.7rem'
-
-const SideBarListItem = styled.li`
-  &:hover {
-    background: #253341;
-  }
-`
-
-const FlexWrapper = styled.div`
-  display: flex;
-  align-content: center;
-  justify-content: flex-start;
-  width: 100%;
-`
-
-const SideBarListHeader = styled.li`
-  ${paddingLeft}
-`
-
-const H3 = styled.h3`
-  margin: 0 0 0.25rem 0;
-`
-
-const Green = styled.span`
-  color: #99cb3f;
-  margin-right: 0.25rem;
-`
-
 const Bubble = ({ on = true }) => (on ? <Green>●</Green> : '○')
 
 const channel = ({ id, name }, teamId) => (
@@ -148,3 +100,51 @@ export default ({
     </div>
   </ChannelWrapper>
 )
+
+const ChannelWrapper = styled.div`
+  grid-column: 2;
+  grid-row: 1/4;
+  background-color: #1a1d23;
+  color: #ffffff;
+  border-right: 0.01px solid rgba(171, 178, 191, 0.2);
+`
+
+const SideBarList = styled.ul`
+  width: 100%;
+  list-style: none;
+  padding-left: 0rem;
+`
+
+const ListItemText = styled.p`
+  margin: 0;
+  position: relative;
+  left: 0.7rem;
+`
+
+const paddingLeft = 'padding-left: 0.7rem'
+
+const SideBarListItem = styled.li`
+  &:hover {
+    background: #253341;
+  }
+`
+
+const FlexWrapper = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: flex-start;
+  width: 100%;
+`
+
+const SideBarListHeader = styled.li`
+  ${paddingLeft}
+`
+
+const H3 = styled.h3`
+  margin: 0 0 0.25rem 0;
+`
+
+const Green = styled.span`
+  color: #99cb3f;
+  margin-right: 0.25rem;
+`
