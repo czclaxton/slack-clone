@@ -20,10 +20,13 @@ const SideBar = ({ teams, currentTeam }) => {
   }
 
   let username = ''
+  let isOwner = false
   try {
     const token = localStorage.getItem('token')
+
     const { user } = decode(token)
     username = user.username
+    isOwner = user.id === currentTeam.owner
   } catch (err) {}
 
   return (
@@ -36,6 +39,7 @@ const SideBar = ({ teams, currentTeam }) => {
         teamId={currentTeam.id}
         channels={currentTeam.channels}
         handleTeamMemberModal={handleTeamMemberModal}
+        isOwner={isOwner}
         users={[
           { id: 1, name: 'connor' },
           { id: 2, name: 'slackbot' },
