@@ -1,7 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const SettingsPopover = ({ teamName, username, handleTeamMemberModal }) => {
+const SettingsPopover = ({
+  teamName,
+  username,
+  handleTeamMemberModal,
+  isOwner,
+}) => {
   return (
     <PopoverWrapper
       className='bp3-popover-wrapper bp3-menu bp3-elevation-1'
@@ -12,15 +17,17 @@ const SettingsPopover = ({ teamName, username, handleTeamMemberModal }) => {
           Settings
         </h3>
       </li>
-      <li>
-        <button
-          type='button'
-          className='bp3-menu-item bp3-icon-standard bp3-icon-new-person'
-          onClick={handleTeamMemberModal}
-        >
-          Invite to team
-        </button>
-      </li>
+      {isOwner && (
+        <li>
+          <button
+            type='button'
+            className='bp3-menu-item bp3-icon-standard bp3-icon-new-person'
+            onClick={handleTeamMemberModal}
+          >
+            Invite to team
+          </button>
+        </li>
+      )}
       <li>
         <button type='button' className='bp3-menu-item bp3-icon-layout-circle'>
           Circle

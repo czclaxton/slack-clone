@@ -32,6 +32,7 @@ export default ({
   handleChannelModal,
   teamId,
   handleTeamMemberModal,
+  isOwner,
 }) => (
   <ChannelWrapper>
     <Popover
@@ -41,6 +42,7 @@ export default ({
           teamName={teamName}
           username={username}
           handleTeamMemberModal={handleTeamMemberModal}
+          isOwner={isOwner}
         />
       }
       minimal='true'
@@ -68,15 +70,17 @@ export default ({
       <SideBarList>
         <SideBarListHeader id='sidebar-list-header'>
           <H3>Channels</H3>
-          <Tooltip content='Add a new channel'>
-            <Icon
-              id='add-icon'
-              icon='plus'
-              iconSize='20'
-              style={{ cursor: 'pointer' }}
-              onClick={handleChannelModal}
-            />
-          </Tooltip>
+          {isOwner && (
+            <Tooltip content='Add a new channel'>
+              <Icon
+                id='add-icon'
+                icon='plus'
+                iconSize='20'
+                style={{ cursor: 'pointer' }}
+                onClick={handleChannelModal}
+              />
+            </Tooltip>
+          )}
         </SideBarListHeader>
         {channels.map(c => channel(c, teamId))}
       </SideBarList>
