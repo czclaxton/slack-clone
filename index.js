@@ -25,12 +25,13 @@ const schema = makeExecutableSchema({
 const addUser = async (req, res, next) => {
   // if valid token, add user to req obj otherwise refresh the tokens
   const token = req.headers["token"];
+
   if (token) {
     try {
       const { user } = jwt.verify(token, process.env.SECRET);
       req.user = user;
     } catch (err) {
-      const refreshToken = req.headers["refreshToken"];
+      const refreshToken = req.headers["refreshtoken"];
       const newTokens = await refreshTokens(
         token,
         refreshToken,
@@ -51,6 +52,8 @@ const addUser = async (req, res, next) => {
 
 const app = express();
 
+app.use(cors("*"), addUser);
+
 const server = new ApolloServer({
   schema,
   context: ({ req }) => ({
@@ -60,8 +63,6 @@ const server = new ApolloServer({
     SECRET2: process.env.SECRET2,
   }),
 });
-
-app.use(cors("*"), addUser);
 
 server.applyMiddleware({ app });
 

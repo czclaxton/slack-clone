@@ -31,6 +31,7 @@ export const refreshTokens = async (
     const {
       user: { id },
     } = jwt.decode(refreshToken);
+
     userId = id;
   } catch (err) {
     return {};
@@ -80,8 +81,7 @@ export const tryLogin = async (email, password, models, SECRET, SECRET2) => {
           message: "Invalid Email",
         },
       ],
-    };
-  }
+    };  
 
   const valid = await bcrypt.compare(password, user.password);
 
