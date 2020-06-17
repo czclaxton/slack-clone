@@ -81,7 +81,8 @@ export const tryLogin = async (email, password, models, SECRET, SECRET2) => {
           message: "Invalid Email",
         },
       ],
-    };  
+    };
+  }
 
   const valid = await bcrypt.compare(password, user.password);
 
