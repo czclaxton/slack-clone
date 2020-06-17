@@ -9,6 +9,6 @@ export default gql`
   }
 
   type Mutation {
-    createMessage(channelId: Int!, text: String!): Boolean!
+    createChannelMessage(channelId: Int!, text: String!): Boolean!
   }
 `;
