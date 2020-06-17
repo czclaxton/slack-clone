@@ -8,10 +8,10 @@ import { ALL_TEAMS } from '../graphql/team'
 
 // Components
 import Header from '../components/Header'
-import Messages from '../components/Messages'
 import SendMessage from '../components/SendMessage'
 import AppLayout from '../components/AppLayout'
 import SideBar from '../containers/Sidebar'
+import ChannelMessages from '../containers/ChannelMessages'
 
 const ViewTeam = ({
   match: {
@@ -52,14 +52,7 @@ const ViewTeam = ({
         currentTeam={currentTeam}
       />
       {currentChannel && <Header channelName={currentChannel.name} />}
-      {currentChannel && (
-        <Messages channelId={currentChannel.id}>
-          <ul>
-            <li></li>
-            <li></li>
-          </ul>
-        </Messages>
-      )}
+      {currentChannel && <ChannelMessages channelId={currentChannel.id} />}
       {currentChannel && <SendMessage channel={currentChannel} />}
     </AppLayout>
   )

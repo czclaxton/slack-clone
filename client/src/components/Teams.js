@@ -4,6 +4,32 @@ import { Link } from 'react-router-dom'
 
 import { Icon } from '@blueprintjs/core'
 
+const team = ({ id, letter }) => (
+  <Link
+    style={{ textDecoration: 'none' }}
+    key={`team-${id}`}
+    to={`/view-team/${id}/`}
+  >
+    <TeamListItem>{letter}</TeamListItem>
+  </Link>
+)
+
+export default ({ teams, currentTeam }) => (
+  <TeamWrapper>
+    <TeamList>
+      {teams.map(team)}
+      <IconWrapper>
+        <Icon
+          id='add-team-icon'
+          icon='plus'
+          iconSize='20'
+          // onClick={}
+        />
+      </IconWrapper>
+    </TeamList>
+  </TeamWrapper>
+)
+
 const TeamWrapper = styled.div`
   grid-column: 1;
   grid-row: 1/4;
@@ -44,29 +70,3 @@ const IconWrapper = styled.li`
   margin-top: 1.5rem;
   cursor: pointer;
 `
-
-const team = ({ id, letter }) => (
-  <Link
-    style={{ textDecoration: 'none' }}
-    key={`team-${id}`}
-    to={`/view-team/${id}/`}
-  >
-    <TeamListItem>{letter}</TeamListItem>
-  </Link>
-)
-
-export default ({ teams, currentTeam }) => (
-  <TeamWrapper>
-    <TeamList>
-      {teams.map(team)}
-      <IconWrapper>
-        <Icon
-          id='add-team-icon'
-          icon='plus'
-          iconSize='20'
-          // onClick={}
-        />
-      </IconWrapper>
-    </TeamList>
-  </TeamWrapper>
-)

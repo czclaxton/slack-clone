@@ -1,4 +1,7 @@
 export default {
+  Query: {
+    channelMessages: async (parent, { channelId }, { models, user }) => [],
+  },
   Mutation: {
     createChannelMessage: async (parent, args, { models, user }) => {
       try {
