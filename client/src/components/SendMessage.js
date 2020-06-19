@@ -6,14 +6,7 @@ import { useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
 // BLUEPRINTJS
-import {
-  Tooltip,
-  Intent,
-  Button,
-  Card,
-  Elevation,
-  InputGroup,
-} from '@blueprintjs/core'
+import { Tooltip, Intent, Button, InputGroup } from '@blueprintjs/core'
 
 const SendMessage = ({ channel: { id, name } }) => {
   const [message, setMessage] = useState({

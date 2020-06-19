@@ -218,3 +218,21 @@ label.bp3-label {
 .bp3-card {
   background: #1a1d23 !important;
 }
+
+#channel-comment {
+  margin-left: 1rem;
+  margin-top: 0.7rem;
+}
+
+.ui.comments .comment .author {
+  color: #fff !important;
+}
+
+.ui.comments .comment .metadata > *,
+.ui.comments .comment .text {
+  color: #abb2bf !important;
+}
+
+.ui.comments .comment .actions a {
+  color: #99cb3f !important;
+}

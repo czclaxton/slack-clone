@@ -6,7 +6,7 @@ import { Icon } from '@blueprintjs/core'
 const HeaderWrapper = styled.div`
   grid-column: 3;
   grid-row: 1;
-  padding-bottom: 0.35rem;
+  padding-bottom: 0.9rem;
   padding-top: 0.3rem;
   background: #1a1d23;
   color: #abb2bf;
