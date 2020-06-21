@@ -1,4 +1,5 @@
 import React from 'react'
+import dayjs from 'dayjs'
 
 // Semantic UI
 import { Comment } from 'semantic-ui-react'
@@ -31,12 +32,12 @@ const ChannelMessages = ({ channelId }) => {
             <Comment.Content>
               <Comment.Author as='a'>{message.user.username}</Comment.Author>
               <Comment.Metadata>
-                <div>{message.createdAt}</div>
+                <div>{dayjs(message.createdAt).format('h:mm a')}</div>
               </Comment.Metadata>
               <Comment.Text>{message.text}</Comment.Text>
-              <Comment.Actions>
+              {/* <Comment.Actions>
                 <Comment.Action>Reply</Comment.Action>
-              </Comment.Actions>
+              </Comment.Actions> */}
             </Comment.Content>
           </Comment>
         ))}

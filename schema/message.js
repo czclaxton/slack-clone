@@ -16,4 +16,8 @@ export default gql`
   type Mutation {
     createChannelMessage(channelId: Int!, text: String!): Boolean!
   }
+
+  type Subscription {
+    newChannelMessage: Message!
+  }
 `;

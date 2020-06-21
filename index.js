@@ -1,15 +1,19 @@
 require("dotenv").config();
 import express from "express";
-import { ApolloServer } from "apollo-server-express";
 import path from "path";
-import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
-import { loadFilesSync } from "@graphql-tools/load-files";
-import { makeExecutableSchema } from "@graphql-tools/schema";
 import jwt from "jsonwebtoken";
 import cors from "cors";
 
+import { ApolloServer } from "apollo-server-express";
+import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
+import { loadFilesSync } from "@graphql-tools/load-files";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { PubSub } from "apollo-server-express";
+
 import models from "./models";
 import { refreshTokens } from "./auth";
+
+const pubsub = new PubSub();
 
 const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, "./schema")));
 
@@ -61,6 +65,7 @@ const server = new ApolloServer({
     user: req.user,
     SECRET: process.env.SECRET,
     SECRET2: process.env.SECRET2,
+    pubsub,
   }),
 });
 

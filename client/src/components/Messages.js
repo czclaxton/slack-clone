@@ -5,4 +5,7 @@ export default styled.div`
   grid-row: 2;
   background: #1a1d23;
   border-bottom: 0.01px solid rgba(171, 178, 191, 0.2);
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
 `
