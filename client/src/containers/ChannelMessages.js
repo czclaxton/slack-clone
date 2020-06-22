@@ -1,18 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import dayjs from 'dayjs'
+import notificationSound from '../utils/notificationSound'
 
 // Semantic UI
 import { Comment } from 'semantic-ui-react'
 
 // GraphQL
-import { useQuery } from 'react-apollo'
+import { useQuery, useSubscription } from 'react-apollo'
 import gql from 'graphql-tag'
 
 // Components
 import Messages from '../components/Messages'
 
-const ChannelMessages = ({ channelId }) => {
+const ChannelMessages = ({ channelId, username }) => {
   const { loading, error, data = {} } = useQuery(CHANNEL_MESSAGES, {
+    variables: { channelId },
+  })
+
+  const { data: newData } = useSubscription(CHANNEL_MESSAGE_SUBSCRIPTION, {
     variables: { channelId },
   })
 
@@ -21,7 +26,12 @@ const ChannelMessages = ({ channelId }) => {
 
   const messagesArr = data.channelMessages
 
-  console.log('🔥', messagesArr)
+  if (newData) {
+    messagesArr.push(newData.newChannelMessage)
+
+    if (newData.newChannelMessage.user.username !== username)
+      notificationSound()
+  }
 
   return (
     <Messages channelId={channelId}>
@@ -49,6 +59,19 @@ const ChannelMessages = ({ channelId }) => {
 const CHANNEL_MESSAGES = gql`
   query($channelId: Int!) {
     channelMessages(channelId: $channelId) {
+      id
+      text
+      user {
+        username
+      }
+      createdAt
+    }
+  }
+`
+
+const CHANNEL_MESSAGE_SUBSCRIPTION = gql`
+  subscription($channelId: Int!) {
+    newChannelMessage(channelId: $channelId) {
       id
       text
       user {

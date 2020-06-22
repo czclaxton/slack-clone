@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import decode from 'jwt-decode'
+// import decode from 'jwt-decode'
 
 // Components
 import Channels from '../components/Channels'
@@ -7,7 +7,7 @@ import Teams from '../components/Teams'
 import AddChannelModal from '../components/AddChannelModal'
 import AddTeamMemberModal from '../components/AddTeamMemberModal'
 
-const SideBar = ({ teams, currentTeam }) => {
+const SideBar = ({ teams, currentTeam, username, isOwner }) => {
   const [addChannelOpen, setAddChannelOpen] = useState(false)
   const [addTeamMemberOpen, setAddTeamMemberOpen] = useState(false)
 
@@ -18,16 +18,6 @@ const SideBar = ({ teams, currentTeam }) => {
   const handleTeamMemberModal = () => {
     setAddTeamMemberOpen(!addTeamMemberOpen)
   }
-
-  let username = ''
-  let isOwner = false
-  try {
-    const token = localStorage.getItem('token')
-
-    const { user } = decode(token)
-    username = user.username
-    isOwner = user.id === currentTeam.owner
-  } catch (err) {}
 
   return (
     <>

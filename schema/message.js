@@ -18,6 +18,6 @@ export default gql`
   }
 
   type Subscription {
-    newChannelMessage: Message!
+    newChannelMessage(channelId: Int!): Message!
   }
 `;

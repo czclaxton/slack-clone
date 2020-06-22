@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 // GraphQL
-import { useMutation, useSubscription } from 'react-apollo'
+import { useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
 // BLUEPRINTJS
@@ -17,10 +17,6 @@ const SendMessage = ({ channel: { id, name } }) => {
     variables: { channelId: parseInt(id), text: message.text },
   })
 
-  const [onNewChannelMessage] = useSubscription(NEW_CHANNEL_MESSAGE, {
-    variables: { channelId: parseInt(id), text: message.text },
-  })
-
   const onChange = e => {
     const { name, value } = e.target
     setMessage({
@@ -32,7 +28,6 @@ const SendMessage = ({ channel: { id, name } }) => {
     if (message.text === '') return
     setMessage({ text: '' })
     await createChannelMessageMutation()
-    await onNewChannelMessage()
   }
 
   const sendButton = (
@@ -72,11 +67,6 @@ const SendMessage = ({ channel: { id, name } }) => {
 const CREATE_CHANNEL_MESSAGE = gql`
   mutation($channelId: Int!, $text: String!) {
     createChannelMessage(channelId: $channelId, text: $text)
-  }
-`
-const NEW_CHANNEL_MESSAGE = gql`
-  subscription NEW_CHANNEL_MESSAGE {
-    newChannelMessage(channelId: $channelId, text: $text)
   }
 `
 

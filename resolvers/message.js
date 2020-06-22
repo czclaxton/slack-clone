@@ -1,5 +1,9 @@
 import requiresAuth from "../permissions";
+import { PubSub, withFilter } from "graphql-subscriptions";
 
+const pubsub = new PubSub();
+
+// Subscription Tags
 const NEW_CHANNEL_MESSAGE = "NEW_CHANNEL_MESSAGE";
 
 export default {
@@ -14,15 +18,33 @@ export default {
   },
   Mutation: {
     createChannelMessage: requiresAuth.createResolver(
-      async (parent, args, { models, user, pubsub }) => {
+      async (parent, { channelId, text }, { models, user }) => {
         try {
-          await models.Message.create({ ...args, userId: user.id });
-          pubsub.publish(NEW_CHANNEL_MESSAGE, {
-            newChannelMessage: {
-              ...args,
-              userId: user.id,
+          const message = await models.Message.create({
+            channelId,
+            text,
+            userId: user.id,
+          });
+
+          // const asyncFunc = async () => {
+          const currentUser = await models.User.findOne({
+            where: {
+              id: user.id,
             },
           });
+
+          pubsub.publish(NEW_CHANNEL_MESSAGE, {
+            channelId,
+            newChannelMessage: {
+              ...message.dataValues,
+              user: currentUser.dataValues,
+            },
+            context: { models },
+          });
+          // };
+
+          // asyncFunc();
+
           return true;
         } catch (err) {
           console.log(err);
@@ -33,12 +55,17 @@ export default {
   },
   Subscription: {
     newChannelMessage: {
-      subscribe: (parent, args, { pubsub }) =>
-        pubsub.asyncIterator([NEW_CHANNEL_MESSAGE]),
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(NEW_CHANNEL_MESSAGE),
+        (payload, { channelId }) => payload.channelId === channelId
+      ),
     },
   },
   Message: {
-    user: ({ userId }, args, { models }) =>
-      models.User.findOne({ where: { id: userId } }),
+    user: ({ user, userId }, args, { models }) => {
+      if (user) return user;
+
+      return models.User.findOne({ where: { id: userId } }, { raw: true });
+    },
   },
 };

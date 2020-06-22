@@ -1,6 +1,7 @@
 import React from 'react'
 import findIndex from 'lodash.findindex'
 import { Redirect } from 'react-router-dom'
+import decode from 'jwt-decode'
 
 // GraphQL
 import { useQuery } from 'react-apollo'
@@ -42,6 +43,16 @@ const ViewTeam = ({
       ? currentTeam.channels[0]
       : currentTeam.channels[channelIndex]
 
+  let username = ''
+  let isOwner = false
+  try {
+    const token = localStorage.getItem('token')
+
+    const { user } = decode(token)
+    username = user.username
+    isOwner = user.id === currentTeam.owner
+  } catch (err) {}
+
   return (
     <AppLayout>
       <SideBar
@@ -50,9 +61,13 @@ const ViewTeam = ({
           letter: team.name.charAt(0).toUpperCase(),
         }))}
         currentTeam={currentTeam}
+        username={username}
+        isOwner={isOwner}
       />
       {currentChannel && <Header channelName={currentChannel.name} />}
-      {currentChannel && <ChannelMessages channelId={currentChannel.id} />}
+      {currentChannel && (
+        <ChannelMessages channelId={currentChannel.id} username={username} />
+      )}
       {currentChannel && <SendMessage channel={currentChannel} />}
     </AppLayout>
   )
