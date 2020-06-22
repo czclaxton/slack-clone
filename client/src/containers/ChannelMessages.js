@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import notificationSound from '../utils/notificationSound'
 
@@ -13,9 +13,35 @@ import gql from 'graphql-tag'
 import Messages from '../components/Messages'
 
 const ChannelMessages = ({ channelId, username }) => {
-  const { loading, error, data = {} } = useQuery(CHANNEL_MESSAGES, {
-    variables: { channelId },
-  })
+  console.log('current channel: ', channelId)
+
+  const { loading, error, data = {}, subscribeToMore } = useQuery(
+    CHANNEL_MESSAGES,
+    {
+      variables: { channelId },
+      fetchPolicy: 'network-only',
+    }
+  )
+
+  // useEffect(() => {
+  //   subscribeToMore({
+  //     document: CHANNEL_MESSAGE_SUBSCRIPTION,
+  //     variables: {
+  //       channelId,
+  //     },
+  //     updateQuery: (prev, { subscriptionData }) => {
+  //       if (!subscriptionData) return prev
+
+  //       return {
+  //         ...prev,
+  //         messages: [
+  //           ...prev.channelMessages,
+  //           subscriptionData.data.newChannelMessage,
+  //         ],
+  //       }
+  //     },
+  //   })
+  // }, [channelId])
 
   const { data: newData } = useSubscription(CHANNEL_MESSAGE_SUBSCRIPTION, {
     variables: { channelId },

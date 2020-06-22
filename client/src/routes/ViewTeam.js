@@ -25,7 +25,6 @@ const ViewTeam = ({
   if (error) return `Error: ${error.message}`
 
   const allTeams = data.allTeams
-  console.log('allTeams', allTeams)
 
   if (!allTeams) return <Redirect to='/create-team' />
 

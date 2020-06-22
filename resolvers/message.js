@@ -26,24 +26,24 @@ export default {
             userId: user.id,
           });
 
-          // const asyncFunc = async () => {
-          const currentUser = await models.User.findOne({
-            where: {
-              id: user.id,
-            },
-          });
+          const asyncFunc = async () => {
+            const currentUser = await models.User.findOne({
+              where: {
+                id: user.id,
+              },
+            });
 
-          pubsub.publish(NEW_CHANNEL_MESSAGE, {
-            channelId,
-            newChannelMessage: {
-              ...message.dataValues,
-              user: currentUser.dataValues,
-            },
-            context: { models },
-          });
-          // };
+            pubsub.publish(NEW_CHANNEL_MESSAGE, {
+              channelId,
+              newChannelMessage: {
+                ...message.dataValues,
+                user: currentUser.dataValues,
+              },
+              context: { models },
+            });
+          };
 
-          // asyncFunc();
+          asyncFunc();
 
           return true;
         } catch (err) {
