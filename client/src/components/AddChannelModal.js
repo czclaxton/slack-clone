@@ -8,7 +8,14 @@ import gql from 'graphql-tag'
 import { ALL_TEAMS } from '../graphql/team'
 
 // BLUEPRINTJS
-import { Tooltip, Dialog, Intent, InputGroup, Switch } from '@blueprintjs/core'
+import {
+  Tooltip,
+  Dialog,
+  Intent,
+  InputGroup,
+  RadioGroup,
+  Radio,
+} from '@blueprintjs/core'
 
 const AddChannelModal = ({ open, close, teamId }) => {
   const [newChannel, setNewChannel] = useState({
@@ -62,45 +69,43 @@ const AddChannelModal = ({ open, close, teamId }) => {
   }
 
   const onSubmit = async () => {
-    const response = await createChannelMutation()
+    await createChannelMutation()
     close()
-    // console.log('response', response)
   }
 
   return (
     <div className='bp3-dialog-container'>
       <Dialog className='bp3-dialog' isOpen={open} onClose={close}>
         <div className='bp3-dialog-header'>
-          <span className='bp3-icon-large bp3-icon-inbox'></span>
-          <h4 className='bp3-heading'>Create a new channel</h4>
+          <span className='bp3-icon-large bp3-icon-annotation'></span>
+          <h4 className='bp3-heading'>Add New Channel</h4>
           <button
             aria-label='Close'
+            onClick={close}
             className='bp3-dialog-close-button bp3-button bp3-minimal bp3-icon-cross'
           ></button>
         </div>
         <div className='bp3-dialog-body'>
           <InputGroup
             placeholder='Channel Name'
-            // rightElement={lockButton}
             type='text'
             name='name'
             onChange={onChange}
             value={name}
             large='true'
-            // intent={errors.password ? 'danger' : null}
           />
-          <Switch label='Public Group' />
+          <RadioGroup label='Group Privacy' inline>
+            <Radio label='Public' disabled />
+            <Radio label='Private' checked='true' />
+          </RadioGroup>
         </div>
 
         <div className='bp3-dialog-footer'>
           <div className='bp3-dialog-footer-actions'>
-            <button type='button' onClick={close} className='bp3-button'>
-              Cancel
-            </button>
             <button
               type='submit'
               onClick={onSubmit}
-              className='bp3-button bp3-intent-primary'
+              className='bp3-button bp3-intent-success'
             >
               Create
             </button>

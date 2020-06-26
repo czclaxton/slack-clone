@@ -1,29 +1,44 @@
 require("dotenv").config();
 import express from "express";
-import { ApolloServer } from "apollo-server-express";
 import path from "path";
-import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas";
 import jwt from "jsonwebtoken";
 import cors from "cors";
+
+// Apollo GraphQL Stuff
+import { ApolloServer } from "apollo-server-express";
+import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
+import { loadFilesSync } from "@graphql-tools/load-files";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { execute, subscribe } from "graphql";
+import { createServer } from "http";
+import { SubscriptionServer } from "subscriptions-transport-ws";
 
 import models from "./models";
 import { refreshTokens } from "./auth";
 
-const typeDefs = mergeTypes(fileLoader(path.join(__dirname, "./schema")));
+const port = 9999;
+
+const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, "./schema")));
 
 const resolvers = mergeResolvers(
-  fileLoader(path.join(__dirname, "./resolvers"))
+  loadFilesSync(path.join(__dirname, "./resolvers"))
 );
+
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
 
 const addUser = async (req, res, next) => {
   // if valid token, add user to req obj otherwise refresh the tokens
   const token = req.headers["token"];
+
   if (token) {
     try {
       const { user } = jwt.verify(token, process.env.SECRET);
       req.user = user;
     } catch (err) {
-      const refreshToken = req.headers["refreshToken"];
+      const refreshToken = req.headers["refreshtoken"];
       const newTokens = await refreshTokens(
         token,
         refreshToken,
@@ -44,21 +59,35 @@ const addUser = async (req, res, next) => {
 
 const app = express();
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: ({ req }) => ({
+app.use(cors("*"), addUser);
+
+const apolloServer = new ApolloServer({
+  schema,
+  context: async ({ req, connection }) => ({
     models,
-    user: req.user,
+    user: connection ? connection.context : req.user,
     SECRET: process.env.SECRET,
     SECRET2: process.env.SECRET2,
   }),
+  subscriptions: `ws://localhost:${port}/subscriptions`,
 });
 
-app.use(cors("*"), addUser);
+apolloServer.applyMiddleware({ app });
 
-server.applyMiddleware({ app });
+const server = createServer(app);
 
 models.sequelize.sync({}).then(() => {
-  app.listen({ port: 9999 });
+  server.listen(port, () => {
+    new SubscriptionServer(
+      {
+        execute,
+        subscribe,
+        schema,
+      },
+      {
+        server,
+        path: "/subscriptions",
+      }
+    );
+  });
 });

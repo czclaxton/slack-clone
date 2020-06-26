@@ -1,45 +1,53 @@
 import React, { useState } from 'react'
-import decode from 'jwt-decode'
+// import decode from 'jwt-decode'
 
 // Components
 import Channels from '../components/Channels'
 import Teams from '../components/Teams'
 import AddChannelModal from '../components/AddChannelModal'
+import AddTeamMemberModal from '../components/AddTeamMemberModal'
 
-const SideBar = ({ teams, currentTeam }) => {
+const SideBar = ({ teams, currentTeam, username, isOwner }) => {
   const [addChannelOpen, setAddChannelOpen] = useState(false)
+  const [addTeamMemberOpen, setAddTeamMemberOpen] = useState(false)
 
-  const handleModal = () => {
+  const handleChannelModal = () => {
     setAddChannelOpen(!addChannelOpen)
   }
 
-  let username = ''
-  try {
-    const token = localStorage.getItem('token')
-    const { user } = decode(token)
-    username = user.username
-  } catch (err) {}
+  const handleTeamMemberModal = () => {
+    setAddTeamMemberOpen(!addTeamMemberOpen)
+  }
 
   return (
     <>
-      <Teams key='team-sidebar' teams={teams} />
+      <Teams key='team-sidebar' teams={teams} currentTeam={currentTeam} />
       <Channels
         key='channels-sidebar'
         teamName={currentTeam.name}
         username={username}
         teamId={currentTeam.id}
         channels={currentTeam.channels}
+        handleTeamMemberModal={handleTeamMemberModal}
+        isOwner={isOwner}
         users={[
           { id: 1, name: 'connor' },
           { id: 2, name: 'slackbot' },
         ]}
-        handleModal={handleModal}
+        handleChannelModal={handleChannelModal}
       />
       <AddChannelModal
         key='sidebar-add-channel-modal'
         open={addChannelOpen}
-        close={handleModal}
+        close={handleChannelModal}
         teamId={currentTeam.id}
+      />
+      <AddTeamMemberModal
+        key='sidebar-add-team-member-modal'
+        teamId={currentTeam.id}
+        open={addTeamMemberOpen}
+        close={handleTeamMemberModal}
+        teamName={currentTeam.name}
       />
     </>
   )
