@@ -1,15 +1,22 @@
 require("dotenv").config();
 import express from "express";
-import { ApolloServer } from "apollo-server-express";
 import path from "path";
-import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
-import { loadFilesSync } from "@graphql-tools/load-files";
-import { makeExecutableSchema } from "@graphql-tools/schema";
 import jwt from "jsonwebtoken";
 import cors from "cors";
 
+// Apollo GraphQL Stuff
+import { ApolloServer } from "apollo-server-express";
+import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
+import { loadFilesSync } from "@graphql-tools/load-files";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { execute, subscribe } from "graphql";
+import { createServer } from "http";
+import { SubscriptionServer } from "subscriptions-transport-ws";
+
 import models from "./models";
 import { refreshTokens } from "./auth";
+
+const port = 9999;
 
 const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, "./schema")));
 
@@ -54,18 +61,33 @@ const app = express();
 
 app.use(cors("*"), addUser);
 
-const server = new ApolloServer({
+const apolloServer = new ApolloServer({
   schema,
-  context: ({ req }) => ({
+  context: async ({ req, connection }) => ({
     models,
-    user: req.user,
+    user: connection ? connection.context : req.user,
     SECRET: process.env.SECRET,
     SECRET2: process.env.SECRET2,
   }),
+  subscriptions: `ws://localhost:${port}/subscriptions`,
 });
 
-server.applyMiddleware({ app });
+apolloServer.applyMiddleware({ app });
+
+const server = createServer(app);
 
 models.sequelize.sync({}).then(() => {
-  app.listen({ port: 9999 });
+  server.listen(port, () => {
+    new SubscriptionServer(
+      {
+        execute,
+        subscribe,
+        schema,
+      },
+      {
+        server,
+        path: "/subscriptions",
+      }
+    );
+  });
 });

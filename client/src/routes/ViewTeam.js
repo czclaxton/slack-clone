@@ -1,6 +1,7 @@
 import React from 'react'
 import findIndex from 'lodash.findindex'
 import { Redirect } from 'react-router-dom'
+import decode from 'jwt-decode'
 
 // GraphQL
 import { useQuery } from 'react-apollo'
@@ -8,10 +9,10 @@ import { ALL_TEAMS } from '../graphql/team'
 
 // Components
 import Header from '../components/Header'
-import Messages from '../components/Messages'
 import SendMessage from '../components/SendMessage'
 import AppLayout from '../components/AppLayout'
 import SideBar from '../containers/Sidebar'
+import ChannelMessages from '../containers/ChannelMessages'
 
 const ViewTeam = ({
   match: {
@@ -24,7 +25,6 @@ const ViewTeam = ({
   if (error) return `Error: ${error.message}`
 
   const allTeams = data.allTeams
-  console.log('allTeams', allTeams)
 
   if (!allTeams) return <Redirect to='/create-team' />
 
@@ -42,6 +42,16 @@ const ViewTeam = ({
       ? currentTeam.channels[0]
       : currentTeam.channels[channelIndex]
 
+  let username = ''
+  let isOwner = false
+  try {
+    const token = localStorage.getItem('token')
+
+    const { user } = decode(token)
+    username = user.username
+    isOwner = user.id === currentTeam.owner
+  } catch (err) {}
+
   return (
     <AppLayout>
       <SideBar
@@ -50,17 +60,14 @@ const ViewTeam = ({
           letter: team.name.charAt(0).toUpperCase(),
         }))}
         currentTeam={currentTeam}
+        username={username}
+        isOwner={isOwner}
       />
       {currentChannel && <Header channelName={currentChannel.name} />}
       {currentChannel && (
-        <Messages channelId={currentChannel.id}>
-          <ul>
-            <li></li>
-            <li></li>
-          </ul>
-        </Messages>
+        <ChannelMessages channelId={currentChannel.id} username={username} />
       )}
-      {currentChannel && <SendMessage channelName={currentChannel.name} />}
+      {currentChannel && <SendMessage channel={currentChannel} />}
     </AppLayout>
   )
 }

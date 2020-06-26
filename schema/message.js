@@ -6,9 +6,18 @@ export default gql`
     text: String!
     user: User!
     channel: Channel!
+    createdAt: String!
+  }
+
+  type Query {
+    channelMessages(channelId: Int!): [Message!]!
   }
 
   type Mutation {
-    createMessage(channelId: Int!, text: String!): Boolean!
+    createChannelMessage(channelId: Int!, text: String!): Boolean!
+  }
+
+  type Subscription {
+    newChannelMessage(channelId: Int!): Message!
   }
 `;
