@@ -114,6 +114,7 @@ const Login = props => {
           </Tooltip>
         </div>
         <button
+          id='login-submit'
           type='button'
           onClick={onSubmit}
           className='bp3-button bp3-intent-success'

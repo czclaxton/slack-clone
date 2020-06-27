@@ -129,6 +129,7 @@ const Register = props => {
           </Tooltip>
         </div>
         <button
+          id='register-submit'
           type='button'
           onClick={onSubmit}
           className='bp3-button bp3-intent-success'
