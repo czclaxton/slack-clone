@@ -26,7 +26,7 @@ const ViewTeam = ({
 
   const allTeams = data.allTeams
 
-  if (!allTeams) return <Redirect to='/create-team' />
+  if (allTeams.length === 0) return <Redirect to='/create-team' />
 
   const teamIdInt = parseInt(teamId, 10)
 
